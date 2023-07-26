@@ -39,6 +39,9 @@ function deleteboard(boardnum){
 	<div th:if="${#authentication.name} == ${board.memberid}">
 		<a th:href="|javascript:deleteboard(${board.boardnum})|">삭제</a>
    	</div>
+   	<div th:if="${#authentication.name} != ${board.memberid}">
+		<p>삭제</p>
+   	</div>
    	<!-- 글삭제 폼 -->
 	<form th:action="@{/board/deleteboard}" method ="post" id="deleteForm">
 		<input type="hidden" name="boardnum" value="0" id="boardnum">

@@ -10,7 +10,7 @@
 </insert>
 
 <!-- 글 읽기 -->
-<select id="read" parameterType="int" resultType="Board">
+<select id="read" resultType="Board">
 	select * from market_board where boardnum = #{boardnum}
 </select>
 <!-- 글 삭제 -->
