@@ -37,6 +37,10 @@ public class BoardController {
 		// 게시판 목록 불러오기
 		ArrayList<Board> boardList = service.selectAllBoard();
 		
+		for(Board b : boardList) {
+			log.debug("게시글:{}", b);
+		}
+		
 		model.addAttribute("boardList", boardList);
 		return "boardView/list";
 	}
@@ -54,13 +58,16 @@ public class BoardController {
 	 * 판매글 등록
 	 * */
 	@PostMapping("write")
-	public String write(Board board) {
+	public String write(@AuthenticationPrincipal UserDetails user, Board board) {
 		log.debug("넘어온 게시글:{}", board);
+		
+		// memberid 넣기
+		board.setMemberid(user.getUsername());
 		
 		// 판매글 등록
 		int n = service.insertBoard(board);
 		
-		return "redirect:/boardView/list";
+		return "redirect:/board/list";
 	}
 	
 	

@@ -26,7 +26,7 @@ public class BoardSeviceImpl implements BoardService {
 	public ArrayList<Board> selectAllBoard() {
 		// TODO Auto-generated method stub
 		ArrayList<Board> boardList = dao.selectAllBoard();
-		return null;
+		return boardList;
 	}
 
 	/** 
