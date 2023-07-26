@@ -3,20 +3,37 @@
 
 -- 회원정보 테이블
 create table market_member (
-
+	memberid		VARCHAR2(20) 	PRIMARY KEY,					--사용자 식별 아이디
+	memberpw		VARCHAR2(100) 	NOT NULL,						--암호화된 로그인 비밀번호
+	membername		VARCHAR2(20) 	NOT NULL,						--사용자 이름
+	phone			VARCHAR2(20)	NOT NULL,						--전화번호
+	enabled			NUMBER(1) DEFAULT 1 CHECK (enabled IN (0, 1)), 	--계정상태, 1-사용가능, 0-불가능
+	rolename		VARCHAR2(20) DEFAULT 'ROLE_USER' CHECK (rolename IN ('ROLE_USER', 'ROLE_ADMIN'))
 );
 
 -- 판매글 테이블
 create table market_board (
-
+	boardnum		number 			primary key,		--글번호
+	memberid		varchar2(20) 	not null,			--작성자 아이디
+	title			varchar2(200) 	not null,			--제목
+	contents		varchar2(2000) 	not null,			--상품소개글 내용
+	inputdate		date 			default sysdate,	--작성일
+	category		varchar2(50),						--상품분류(computer/camera/car)
+	soldout			char(1)			default 'N' check (soldout in ('N', 'Y')),	--판매완료여부 (판매중:'N', 판매완료:'Y')
+	buyerid			varchar2(20)						--구매자 아이디
 );
 
 --판매글 일련번호 시퀀스
+create sequence market_board_seq;
 
 -- 리플 테이블
 create table market_reply (
-
+	replynum 	number 			primary key,											--댓글 번호
+	boardnum 	number 			references market_board(boardnum) on delete cascade,	--본문 글번호
+	memberid 	varchar2(20),															--작성자 아이디
+	replytext 	varchar2(500) 	not null,												--리플 내용
+	inputdate 	date 			default sysdate											--작성일
 );
 
 --리플 일련번호 시퀀스
-
+create sequence market_reply_seq;
