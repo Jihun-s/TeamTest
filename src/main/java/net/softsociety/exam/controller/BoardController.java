@@ -25,6 +25,23 @@ import net.softsociety.exam.service.BoardService;
 @RequestMapping("board")
 @Controller
 public class BoardController {
+	@Autowired
+	BoardService service;
 	
-
+	@GetMapping("read")
+	public String read(
+			@RequestParam(name="boardnum", defaultValue="0") int boardnum
+			, Model model) {
+		Board board = service.read(boardnum);
+		if(board==null) {
+			log.debug("post가 null입니다");
+			return "redirect:/";
+		} else {
+			ArrayList<Reply> replyList = service.replyList();
+			log.debug("{}", replyList);
+			model.addAttribute("replyList", replyList);
+			model.addAttribute("board", board);
+			return "/boardView/read";
+		}
+	}
 }

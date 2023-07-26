@@ -13,5 +13,9 @@ import net.softsociety.exam.domain.Reply;
  */
 @Mapper
 public interface BoardDAO {
+	//게시판 글읽기
+	Board read(int boardnum);
+	//리플목록 출력
+	ArrayList<Reply> replyList();
 
 }

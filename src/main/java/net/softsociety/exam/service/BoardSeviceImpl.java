@@ -15,6 +15,19 @@ import net.softsociety.exam.domain.Reply;
 @Transactional
 @Service
 public class BoardSeviceImpl implements BoardService {
+	@Autowired
+	BoardDAO dao;
+	
+	//게시판 글읽기
+	@Override
+	public Board read(int boardnum) {
+		return dao.read(boardnum);
+	}
+	//리플목록 출력
+	@Override
+	public ArrayList<Reply> replyList() {
+		return dao.replyList();
+	}
 
 
 }
