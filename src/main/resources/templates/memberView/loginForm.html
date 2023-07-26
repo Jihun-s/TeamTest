@@ -2,6 +2,7 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<<<<<<< HEAD
 <title>회원가입</title>
 <style>
 
@@ -15,3 +16,84 @@
 		</form>
 </body>
 </html>
+=======
+<title>[ Login ]</title>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+}
+
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+h1 {
+  text-align: center;
+  margin-top: 0;
+}
+
+form {
+  margin-top: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+p.error-message {
+  color: red;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<h1>[ LogIN ]</h1>
+		</header>
+		<section>
+			<form th:action="@{/member/login}" method="post">
+				<label for="memberid">ID</label>
+				<input type="text" id="memberid" name="memberid">
+				<label for="memberpw">PW</label>
+				<input type="password" id="memberpw" name="memberpw">
+				<input type="submit" value="Login">
+			</form>
+			<p th:if="${param.error}" class="error-message">ID 또는 비밀번호가 틀렸습니다.</p>
+			<div th:if="${param.error}">
+				<script>
+					alert('잘못된 계정입니다.');
+				</script>
+			</div>
+		</section>
+	</div>
+</body>
+</html>
+>>>>>>> master_sub

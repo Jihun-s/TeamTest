@@ -9,11 +9,18 @@
 </head>
 <body>
 	<h1>[ 중고 거래 사이트 ]</h1>
+	<p sec:authorize="isAuthenticated()">
+		<span th:text="${#authentication.name}"></span>님 로그인중
+	</p>
 	<ul>
-		<li><a th:href="@{/member/join}">회원가입</a></li>
-		<li><a th:href="@{/member/login}">로그인</a></li>
+		<li sec:authorize="!(isAuthenticated())"><a th:href="@{/member/join}">회원가입</a></li>
+		<li sec:authorize="not isAuthenticated()"><a th:href="@{/member/login}">로그인</a></li>
+		<p sec:authorize="isAuthenticated()"><a th:href="@{/member/logout}">로그아웃</a></p>
 		<!-- 이곳에 추가하여 작성하세요. -->
+<<<<<<< HEAD
 		<li><a th:href="@{board/list}">판매정보 게시판</a></li>
+=======
+>>>>>>> master_sub
 	</ul>
 
 </body>
