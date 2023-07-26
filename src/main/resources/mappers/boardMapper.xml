@@ -13,4 +13,8 @@
 <select id="read" parameterType="int" resultType="Board">
 	select * from market_board where boardnum = #{boardnum}
 </select>
+<!-- 글 삭제 -->
+<delete id="delete" parameterType="int">
+	delete from market_board where boardnum = #{boardnum}  
+</delete>
 </mapper>

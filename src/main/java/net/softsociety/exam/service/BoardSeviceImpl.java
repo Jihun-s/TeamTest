@@ -23,6 +23,14 @@ public class BoardSeviceImpl implements BoardService {
 	public Board read(int boardnum) {
 		return dao.read(boardnum);
 	}
+	
+	//게시판 글삭제
+	@Override
+	public int delete(int boardnum) {
+		return dao.delete(boardnum);
+	}
+
+
 	//리플목록 출력
 	@Override
 	public ArrayList<Reply> replyList() {

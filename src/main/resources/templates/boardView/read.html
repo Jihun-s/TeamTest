@@ -4,6 +4,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Board_Read</title>
+<script th:src="@{/js/jquery-3.6.0.js}"></script>
+<script>
+function deleteboard(boardnum){
+	let a = confirm('삭제하시겠습니까?');
+	if(a){
+		document.getElementById('boardnum').value = boardnum;
+		document.getElementById('deleteForm').submit();
+	};
+}
+</script>
 </head>
 <body>
 <h1>[ 판매 정보 ]</h1>
@@ -25,5 +35,13 @@
 		<td><pre th:text="${board.contents}"></pre></td>
 	</tr>	
 	</table>
+	
+	<div th:if="${#authentication.name} == ${board.memberid}">
+		<a th:href="|javascript:deleteboard(${board.boardnum})|">삭제</a>
+   	</div>
+   	<!-- 글삭제 폼 -->
+	<form th:action="@{/board/deleteboard}" method ="post" id="deleteForm">
+		<input type="hidden" name="boardnum" value="0" id="boardnum">
+	</form>   	
 </body>
 </html>

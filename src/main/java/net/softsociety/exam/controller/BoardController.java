@@ -28,6 +28,7 @@ public class BoardController {
 	@Autowired
 	BoardService service;
 	
+	//글읽기
 	@GetMapping("read")
 	public String read(
 			@RequestParam(name="boardnum", defaultValue="0") int boardnum
@@ -44,4 +45,14 @@ public class BoardController {
 			return "/boardView/read";
 		}
 	}
+	//글삭제
+	@PostMapping("deleteboard")
+	public String delete(int boardnum) {
+		int n = service.delete(boardnum);
+		if(n==0) {
+			log.debug("삭제 실패");
+			return "redirect:/";
+		}
+		return "redirect:/board/list";
+	}	
 }
