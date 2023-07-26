@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script th:src="@{/js/jquery-3.6.0.js}"></script>
+</head>
+<body>
+<h1>[판매글목록]</h1>
+	
+	 <table>
+	 
+	  <tr>
+	     <td>전체</td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td>
+            <a>글쓰기</a>
+            <a th:href="@{/}">Home</a>
+         </td>
+	  </tr>
+	  <tr>
+	      <td><span class="name">글번호</span></td>
+	      <td><span class="name">제목</span></td>
+	      <td><span class="name">작성자</span></td>	      
+	      <td><span class="name">작성일</span></td>
+	  </tr>
+	  <tr th:each="b : ${list}" class="center">
+	      <td ><span th:text="${b.boardnum}"></span></td>
+	      <td ><a th:href="@{/board/selectOne(boardnum=${b.boardnum})}"
+                 th:text="${b.title}"></a></td>
+	      <td ><span th:text="${b.memberid}"></span></td>
+	      <td ><span th:text="${b.inputdate}"></span></td>
+	  </tr>  
+	  
+	 </table>
+
+</body>
+</html>

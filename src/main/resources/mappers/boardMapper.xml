@@ -9,6 +9,53 @@
 
 </insert>
 
+<!-- 선택 글 읽기 -->
+<select id="selectOne" parameterType="int" resultType="Board">
+select
+	boardnum
+	,memberid
+	, to_char(inputdate, '[yyyy.mm.dd] hh24:mm:ss') inputdate
+	, title
+	, contents
+from
+	market_board
+where
+	boardnum=#{boardnum}
+</select>
+
+<!-- 선택 글 삭제 -->
+<delete id="deleteOne" parameterType="Board">
+delete from
+	 market_board
+where 
+	boardnum=#{boardnum}
+</delete>
+
+<!-- 댓글달기 -->
+<insert id="insertReply" parameterType="Reply">
+insert into
+	market_reply (
+		replynum
+		,memberid
+		,replytext
+	)
+	values (
+	   market_reply_seq.nextval
+			, #{replynum}
+			, #{memberid}
+			, #{replytext}
+	)
+</insert>
+<!-- 게시글목록 불러오기 -->
+<select id="getBoardList" resultType="Board">
+select
+	memberid
+	,boardnum
+	,title
+from
+	market_board
+</select>
+
 
 
 </mapper>

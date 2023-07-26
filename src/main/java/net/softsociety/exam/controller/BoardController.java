@@ -25,6 +25,63 @@ import net.softsociety.exam.service.BoardService;
 @RequestMapping("board")
 @Controller
 public class BoardController {
+	@Autowired
+	BoardService service;
 	
+	//게시글 하나 읽기
+	@GetMapping("selectOne")
+	public String selectOne( 
+		   			Model m
+					,@RequestParam(name="boardnum", defaultValue="0")int boardnum)
+    {
+    	//ArrayList<Reply> r= service.selectReply(boardnum);
+		log.debug("여기로 오는지:{}", boardnum);
+    	Board b = service.selectOne(boardnum);
+    	//보드번호 없으면 글목록으로 리턴
+    	if(b ==null) {
+			return "redirect:/list";
+		}
+    	
+    	m.addAttribute("board", b);
+		//m.addAttribute("reply", r);
+		
+		return "boardView/selectOne?boardnum=" + b.getBoardnum();
+    }
+	
+	//게시글 삭제
+	@GetMapping("deleteOne")
+	public String deleteOne(@AuthenticationPrincipal UserDetails user
+							, Board b) {
+		b.setMemberid(user.getUsername());
+		service.deleteOne(b);
+		return "boardView/list";
+	}
+	//댓글쓰기
+	@PostMapping("insertReply")
+	public String insertReply(@AuthenticationPrincipal UserDetails user ,Reply r) {
+		
+		 r.setMemberid(user.getUsername());
+		 int num = service.insertReply(r);
+		 
+		 return "redirect:/board/selectOne?boardnum="+r.getBoardnum();
+	}
+	//상품 구매
+	@PostMapping("purchase")
+	public String purchase(@RequestParam("boardnum")int boardnum) {		
+		
+		return "boardView/list";
+	}
+	//게시글목록으로 이동
+	@GetMapping("list")
+	public String list(Model m, Board b) {
+	ArrayList<Board> list = service.getBoardList(b);
+	
+	m.addAttribute("list", list);
+	return "boardView/list";
+	}
+					
+		
+		
+	
+	}
 
-}

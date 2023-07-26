@@ -7,6 +7,13 @@ import lombok.NoArgsConstructor;
 /**
  * 리플 정보
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reply {
-
+	int replynum;
+	int boardnum;
+	String memberid;
+	String replytext;
+	String inputdate;
 }
