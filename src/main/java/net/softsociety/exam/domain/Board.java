@@ -17,6 +17,6 @@ public class Board {
 	String contents;
 	String inputdate;
 	String category;
-	boolean soldout;
+	String soldout;
 	String buyerid;
 }

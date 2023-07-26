@@ -38,7 +38,7 @@ public class BoardController {
 		ArrayList<Board> boardList = service.selectAllBoard();
 		
 		for(Board b : boardList) {
-			log.debug("게시글:{}", b);
+			log.debug("게시글:{}");
 		}
 		
 		model.addAttribute("boardList", boardList);
@@ -70,5 +70,44 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	
+	   //글읽기
+	   @GetMapping("read")
+	   public String read(
+	         @RequestParam(name="boardnum", defaultValue="0") int boardnum
+	         , Model model) {
+	      Board board = service.read(boardnum);
+	      if(board==null) {
+	         log.debug("post가 null입니다");
+	         return "redirect:/";
+	      } else {
+	         ArrayList<Reply> replyList = service.replyList();
+	         log.debug("{}", replyList);
+	         model.addAttribute("replyList", replyList);
+	         model.addAttribute("board", board);
+	         return "/boardView/read";
+	      }
+	   }
+	   //글삭제
+	   @PostMapping("deleteboard")
+	   public String delete(int boardnum) {
+	      int n = service.delete(boardnum);
+	      if(n==0) {
+	         log.debug("삭제 실패");
+	         return "redirect:/";
+	      }
+	      return "redirect:/board/list";
+	   }
+	   
+	   //리플저장
+	   @PostMapping("insertReply")
+	   public String insertReply(@AuthenticationPrincipal UserDetails user
+	                     ,Reply reply) {
+	      reply.setMemberid(user.getUsername());
+	      log.debug("리플:{}",reply);
+	      int n = service.insertReply(reply);
+	      if(n==0) {
+	         log.debug("댓글 저장 실패");
+	      }
+	      return "redirect:/board/read?boardnum="+reply.getBoardnum();
+	   }
 }

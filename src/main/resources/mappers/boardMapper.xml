@@ -28,4 +28,22 @@
 			, #{title}
 			, #{contents})
 </insert>
+
+<!-- 글 읽기 -->
+<select id="read" resultType="Board">
+   select * from market_board where boardnum = #{boardnum}
+</select>
+<!-- 글 삭제 -->
+<delete id="delete" parameterType="int">
+   delete from market_board where boardnum = #{boardnum}  
+</delete>
+<!-- 리플목록 저장 -->
+<select id="replyList">
+   select * from market_reply order by inputdate
+</select>
+<!-- 리플 저장 -->
+<insert id="insertReply" parameterType="Reply">
+   insert into market_reply(replynum, boardnum, memberid, replytext)
+   values (market_reply_seq.nextval, #{boardnum}, #{memberid}, #{replytext})
+</insert>
 </mapper>

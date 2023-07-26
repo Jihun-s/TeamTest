@@ -24,4 +24,12 @@ public interface BoardDAO {
 	 * */
 	int insertBoard(Board board);
 
+	 //게시판 글읽기
+	   Board read(int boardnum);
+	   //게시판 글삭제
+	   int delete(int boardnum);
+	   //리플목록 출력
+	   ArrayList<Reply> replyList();
+	   //리플저장
+	   int insertReply(Reply reply);
 }

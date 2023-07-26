@@ -39,5 +39,29 @@ public class BoardSeviceImpl implements BoardService {
 		return result;
 	}
 
+	   //게시판 글읽기
+	   @Override
+	   public Board read(int boardnum) {
+	      return dao.read(boardnum);
+	   }
+	   
+	   //게시판 글삭제
+	   @Override
+	   public int delete(int boardnum) {
+	      return dao.delete(boardnum);
+	   }
 
+
+	   //리플목록 출력
+	   @Override
+	   public ArrayList<Reply> replyList() {
+	      return dao.replyList();
+	   }
+	   //리플저장
+
+	   @Override
+	   public int insertReply(Reply reply) {
+	      return dao.insertReply(reply);
+	   }
+	   
 }

@@ -23,8 +23,7 @@
 	<tr th:each="board : ${boardList}">
 		<td th:text="${board.boardnum}">000</td>
 		<td>
-			<!-- th:href="@{/board/read(boardnum=${board.boardnum})}"  -->
-			<a th:text="${board.title}">제목</a>
+			<a th:href="@{/board/read(boardnum=${board.boardnum})}" th:text="${board.title}">제목</a>
 		</td>
 		<td th:text="${board.memberid}">작성자</td>
 	</tr>
