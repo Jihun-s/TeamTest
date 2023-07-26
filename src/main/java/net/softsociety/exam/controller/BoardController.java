@@ -26,5 +26,42 @@ import net.softsociety.exam.service.BoardService;
 @Controller
 public class BoardController {
 	
-
+	@Autowired
+	BoardService service;
+	
+	/** 
+	 * 판매 정보 게시판
+	 * */
+	@GetMapping("list")
+	public String list(Model model) {
+		// 게시판 목록 불러오기
+		ArrayList<Board> boardList = service.selectAllBoard();
+		
+		model.addAttribute("boardList", boardList);
+		return "boardView/list";
+	}
+	
+	/** 
+	 * 판매글 등록
+	 * */
+	@GetMapping("write")
+	public String write() {
+		
+		return "boardView/write";
+	}
+	
+	/** 
+	 * 판매글 등록
+	 * */
+	@PostMapping("write")
+	public String write(Board board) {
+		log.debug("넘어온 게시글:{}", board);
+		
+		// 판매글 등록
+		int n = service.insertBoard(board);
+		
+		return "redirect:/boardView/list";
+	}
+	
+	
 }

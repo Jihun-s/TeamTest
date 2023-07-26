@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<script th:src="@{/js/jquery-3.6.0.js}"></script>
+<script>
+	$(document).ready(function() {
+		alert('뿡');
+	});
+</script>
+<title>판매글 등록</title>
+</head>
+<body>
+<h1>[ 판매글 등록 ]</h1>
+
+<table>
+	<tr>
+		<td>카테고리</td>
+		<td>
+			<select name="" id="">
+				<option value="">컴퓨터</option>
+				<option value=""></option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>제목</td>
+		<td>
+			<input type="text" name="title" id="title"/>
+		</td>
+	</tr>
+	<tr>
+		<td>내용</td>
+		<td>
+			<textarea name="contents" id="contents" cols="30" rows="10"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			<input type="submit" value="저장" id="submitButton" />
+		</td>
+	</tr>
+</table>
+</body>
+</html>

@@ -16,5 +16,28 @@ import net.softsociety.exam.domain.Reply;
 @Service
 public class BoardSeviceImpl implements BoardService {
 
+	@Autowired
+	BoardDAO dao;
+	
+	/** 
+	 * 게시판 전체 조회
+	 * */
+	@Override
+	public ArrayList<Board> selectAllBoard() {
+		// TODO Auto-generated method stub
+		ArrayList<Board> boardList = dao.selectAllBoard();
+		return null;
+	}
+
+	/** 
+	 * 판매글 등록
+	 * */
+	@Override
+	public int insertBoard(Board board) {
+		// TODO Auto-generated method stub
+		int result = dao.insertBoard(board);
+		return result;
+	}
+
 
 }
