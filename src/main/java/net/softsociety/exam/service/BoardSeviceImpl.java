@@ -15,40 +15,53 @@ import net.softsociety.exam.domain.Reply;
 @Transactional
 @Service
 public class BoardSeviceImpl implements BoardService {
-	
+
 	@Autowired
 	BoardDAO dao;
 	
-	//댓글불러오기
+	/** 
+	 * 게시판 전체 조회
+	 * */
 	@Override
-	public ArrayList<Reply> selectReply(int boardnum) {
-		ArrayList<Reply> reply = dao.selectReply(boardnum);
-		return reply;
-	}
-	//선택글 읽기
-	@Override
-	public Board selectOne(int boardnum) {
-		Board b = dao.selectOne(boardnum);
-		return b;
-	}
-	//선택글 삭제
-	@Override
-	public int deleteOne(Board b) {
-		int n = dao.deleteone(b);
-		return n;
-	}
-	//댓글 입력
-	@Override
-	public int insertReply(Reply r) {
-		int n = dao.insertReply(r);
-		return n;
-	}
-	//글목록 불러오기
-	@Override
-	public ArrayList<Board> getBoardList(Board b) {
-		ArrayList<Board> list = dao.getBoardList(b);
-		return list;
+	public ArrayList<Board> selectAllBoard() {
+		// TODO Auto-generated method stub
+		ArrayList<Board> boardList = dao.selectAllBoard();
+		return boardList;
 	}
 
+	/** 
+	 * 판매글 등록
+	 * */
+	@Override
+	public int insertBoard(Board board) {
+		// TODO Auto-generated method stub
+		int result = dao.insertBoard(board);
+		return result;
+	}
 
+	   //게시판 글읽기
+	   @Override
+	   public Board read(int boardnum) {
+	      return dao.read(boardnum);
+	   }
+	   
+	   //게시판 글삭제
+	   @Override
+	   public int delete(int boardnum) {
+	      return dao.delete(boardnum);
+	   }
+
+
+	   //리플목록 출력
+	   @Override
+	   public ArrayList<Reply> replyList() {
+	      return dao.replyList();
+	   }
+	   //리플저장
+
+	   @Override
+	   public int insertReply(Reply reply) {
+	      return dao.insertReply(reply);
+	   }
+	   
 }

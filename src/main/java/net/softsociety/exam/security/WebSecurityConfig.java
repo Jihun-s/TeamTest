@@ -26,13 +26,12 @@ public class WebSecurityConfig {
         .authorizeRequests()
         .antMatchers(
         		"/",
+        		"/member/idcheck",
         		"/member/join",
-        		"/member/login",
         		"/board/list",
-        		"/board/selectOne",
                 "/image/**",
                 "/css/**",
-                "/js/**").permitAll() ////설정한 리소스의 접근을 인증절차 없이 허용
+                "/js/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .formLogin()					

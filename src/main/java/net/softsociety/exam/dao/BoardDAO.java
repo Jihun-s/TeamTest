@@ -14,14 +14,22 @@ import net.softsociety.exam.domain.Reply;
 @Mapper
 public interface BoardDAO {
 
-	Board selectOne(int boardnum);
+	/** 
+	 * 게시판 전체 조회 
+	 * */
+	ArrayList<Board> selectAllBoard();
 
-	ArrayList<Reply> selectReply(int boardnum);
+	/** 
+	 * 판매글 등록
+	 * */
+	int insertBoard(Board board);
 
-	int deleteone(Board b);
-
-	int insertReply(Reply r);
-
-	ArrayList<Board> getBoardList(Board b);
-
+	 //게시판 글읽기
+	   Board read(int boardnum);
+	   //게시판 글삭제
+	   int delete(int boardnum);
+	   //리플목록 출력
+	   ArrayList<Reply> replyList();
+	   //리플저장
+	   int insertReply(Reply reply);
 }

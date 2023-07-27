@@ -25,63 +25,90 @@ import net.softsociety.exam.service.BoardService;
 @RequestMapping("board")
 @Controller
 public class BoardController {
+	
 	@Autowired
 	BoardService service;
 	
-	//게시글 하나 읽기
-	@GetMapping("selectOne")
-	public String selectOne( 
-		   			Model m
-					,@RequestParam(name="boardnum", defaultValue="0")int boardnum)
-    {
-    	//ArrayList<Reply> r= service.selectReply(boardnum);
-		log.debug("여기로 오는지:{}", boardnum);
-    	Board b = service.selectOne(boardnum);
-    	//보드번호 없으면 글목록으로 리턴
-    	if(b ==null) {
-			return "redirect:/list";
-		}
-    	
-    	m.addAttribute("board", b);
-		//m.addAttribute("reply", r);
-		
-		return "boardView/selectOne?boardnum=" + b.getBoardnum();
-    }
-	
-	//게시글 삭제
-	@GetMapping("deleteOne")
-	public String deleteOne(@AuthenticationPrincipal UserDetails user
-							, Board b) {
-		b.setMemberid(user.getUsername());
-		service.deleteOne(b);
-		return "boardView/list";
-	}
-	//댓글쓰기
-	@PostMapping("insertReply")
-	public String insertReply(@AuthenticationPrincipal UserDetails user ,Reply r) {
-		
-		 r.setMemberid(user.getUsername());
-		 int num = service.insertReply(r);
-		 
-		 return "redirect:/board/selectOne?boardnum="+r.getBoardnum();
-	}
-	//상품 구매
-	@PostMapping("purchase")
-	public String purchase(@RequestParam("boardnum")int boardnum) {		
-		
-		return "boardView/list";
-	}
-	//게시글목록으로 이동
+	/** 
+	 * 판매 정보 게시판
+	 * */
 	@GetMapping("list")
-	public String list(Model m, Board b) {
-	ArrayList<Board> list = service.getBoardList(b);
-	
-	m.addAttribute("list", list);
-	return "boardView/list";
-	}
-					
+	public String list(Model model) {
+		// 게시판 목록 불러오기
+		ArrayList<Board> boardList = service.selectAllBoard();
 		
+		for(Board b : boardList) {
+			log.debug("게시글:{}");
+		}
 		
-	
+		model.addAttribute("boardList", boardList);
+		return "boardView/list";
 	}
+	
+	/** 
+	 * 판매글 등록
+	 * */
+	@GetMapping("write")
+	public String write() {
+		
+		return "boardView/write";
+	}
+	
+	/** 
+	 * 판매글 등록
+	 * */
+	@PostMapping("write")
+	public String write(@AuthenticationPrincipal UserDetails user, Board board) {
+		log.debug("넘어온 게시글:{}", board);
+		
+		// memberid 넣기
+		board.setMemberid(user.getUsername());
+		
+		// 판매글 등록
+		int n = service.insertBoard(board);
+		
+		return "redirect:/board/list";
+	}
+	
+	   //글읽기
+	   @GetMapping("read")
+	   public String read(
+	         @RequestParam(name="boardnum", defaultValue="0") int boardnum
+	         , Model model) {
+	      Board board = service.read(boardnum);
+	      if(board==null) {
+	         log.debug("post가 null입니다");
+	         return "redirect:/";
+	      } else {
+	         ArrayList<Reply> replyList = service.replyList();
+	         log.debug("{}", replyList);
+	         model.addAttribute("replyList", replyList);
+	         model.addAttribute("board", board);
+	         return "/boardView/read";
+	      }
+	   }
+	   //글삭제
+	   @PostMapping("deleteboard")
+	   public String delete(int boardnum) {
+	      int n = service.delete(boardnum);
+	      if(n==0) {
+	         log.debug("삭제 실패");
+	         return "redirect:/";
+	      }
+	      return "redirect:/board/list";
+	   }
+	   
+	   //리플저장
+	   @PostMapping("insertReply")
+	   public String insertReply(@AuthenticationPrincipal UserDetails user
+	                     ,Reply reply) {
+	      reply.setMemberid(user.getUsername());
+	      log.debug("리플:{}",reply);
+	      int n = service.insertReply(reply);
+	      if(n==0) {
+	         log.debug("댓글 저장 실패");
+	      }
+	      return "redirect:/board/read?boardnum="+reply.getBoardnum();
+	   }
+}
 

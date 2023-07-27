@@ -4,58 +4,46 @@
 
 <mapper namespace="net.softsociety.exam.dao.BoardDAO">
 
-<!--판매글 저장 -->
+<!-- 게시판 전체 조회 -->
+<select id="selectAllBoard" resultType="Board">
+	select 
+		boardnum, memberid, title 
+	from market_board
+	where soldout = 'N'
+	order by 
+		boardnum desc
+</select>
+
+<!-- 판매글 등록 -->
 <insert id="insertBoard" parameterType="Board">
-
-</insert>
-
-<!-- 선택 글 읽기 -->
-<select id="selectOne" parameterType="int" resultType="Board">
-select
-	boardnum
-	,memberid
-	, to_char(inputdate, '[yyyy.mm.dd] hh24:mm:ss') inputdate
-	, title
-	, contents
-from
-	market_board
-where
-	boardnum=#{boardnum}
-</select>
-
-<!-- 선택 글 삭제 -->
-<delete id="deleteOne" parameterType="Board">
-delete from
-	 market_board
-where 
-	boardnum=#{boardnum}
-</delete>
-
-<!-- 댓글달기 -->
-<insert id="insertReply" parameterType="Reply">
-insert into
-	market_reply (
-		replynum
-		,memberid
-		,replytext
-	)
-	values (
-	   market_reply_seq.nextval
-			, #{replynum}
+	insert into
+		market_board
+			(boardnum
+			, memberid
+			, title
+			, contents)
+	values 
+			(market_board_seq.nextval
 			, #{memberid}
-			, #{replytext}
-	)
+			, #{title}
+			, #{contents})
 </insert>
-<!-- 게시글목록 불러오기 -->
-<select id="getBoardList" resultType="Board">
-select
-	memberid
-	,boardnum
-	,title
-from
-	market_board
+
+<!-- 글 읽기 -->
+<select id="read" resultType="Board">
+   select * from market_board where boardnum = #{boardnum}
 </select>
-
-
-
+<!-- 글 삭제 -->
+<delete id="delete" parameterType="int">
+   delete from market_board where boardnum = #{boardnum}  
+</delete>
+<!-- 리플목록 저장 -->
+<select id="replyList">
+   select * from market_reply order by inputdate
+</select>
+<!-- 리플 저장 -->
+<insert id="insertReply" parameterType="Reply">
+   insert into market_reply(replynum, boardnum, memberid, replytext)
+   values (market_reply_seq.nextval, #{boardnum}, #{memberid}, #{replytext})
+</insert>
 </mapper>

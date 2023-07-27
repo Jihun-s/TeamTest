@@ -3,39 +3,30 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 <script th:src="@{/js/jquery-3.6.0.js}"></script>
+<title>판매정보 게시판</title>
 </head>
 <body>
-<h1>[판매글목록]</h1>
-	
-	 <table>
-	 
-	  <tr>
-	     <td>전체</td>
-         <td></td>
-         <td></td>
-         <td></td>
-         <td>
-            <a>글쓰기</a>
-            <a th:href="@{/}">Home</a>
-         </td>
-	  </tr>
-	  <tr>
-	      <td><span class="name">글번호</span></td>
-	      <td><span class="name">제목</span></td>
-	      <td><span class="name">작성자</span></td>	      
-	      <td><span class="name">작성일</span></td>
-	  </tr>
-	  <tr th:each="b : ${list}" class="center">
-	      <td ><span th:text="${b.boardnum}"></span></td>
-	      <td ><a th:href="@{/board/selectOne(boardnum=${b.boardnum})}"
-                 th:text="${b.title}"></a></td>
-	      <td ><span th:text="${b.memberid}"></span></td>
-	      <td ><span th:text="${b.inputdate}"></span></td>
-	  </tr>  
-	  
-	 </table>
+<h1>[ 판매 정보 게시판 ]</h1>
 
+<th:block sec:authorize="isAuthenticated()">
+	<span th:text="${#authentication.name}"></span>님 로그인중
+	<a th:href="@{/board/write}">판매글 등록</a>
+</th:block>
+
+<table>
+	<tr>
+		<th>번호</th>
+		<th>제목</th>
+		<th>작성자</th>
+	</tr>
+	<tr th:each="board : ${boardList}">
+		<td th:text="${board.boardnum}">000</td>
+		<td>
+			<a th:href="@{/board/read(boardnum=${board.boardnum})}" th:text="${board.title}">제목</a>
+		</td>
+		<td th:text="${board.memberid}">작성자</td>
+	</tr>
+</table>
 </body>
 </html>
