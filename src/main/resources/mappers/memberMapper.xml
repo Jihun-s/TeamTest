@@ -5,8 +5,12 @@
 <mapper namespace="net.softsociety.exam.dao.MemberDAO">
 
 <!-- 회원정보 저장 -->
-<insert id="insertMember" parameterType="Member">
-
+<insert id="joinMember" parameterType="Member">
+	INSERT INTO market_member (memberid, memberpw, membername, phone)
+	VALUES (#{memberid}, #{memberpw}, #{membername}, #{phone})
 </insert>
-
+<!-- ID 개수 확인 -->
+<select id="countMemberid" parameterType="String" resultType="int">
+	select count(*) from market_member where memberid = #{memberid}
+</select>
 </mapper>
