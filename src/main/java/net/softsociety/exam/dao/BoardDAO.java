@@ -32,4 +32,8 @@ public interface BoardDAO {
 	   ArrayList<Reply> replyList();
 	   //리플저장
 	   int insertReply(Reply reply);
+	   //구매
+	int purchaseBoard(Board b);
+
+	ArrayList<Board> search(String category, String searchText);
 }

@@ -9,7 +9,7 @@
 function deleteboard(boardnum){
    let a = confirm('삭제하시겠습니까?');
    if(a){
-      document.getElementById('boardnum').value = boardnum;
+      document.getElementById('delete').value = boardnum;
       document.getElementById('deleteForm').submit();
    };
 }
@@ -20,6 +20,13 @@ function chkreply(){
       return false;
    }
    return true;
+}
+function purchaseboard(boardnum) {
+	let a = confirm('구매하시겠습니까?');
+    if (a) {
+        document.getElementById('purchase').value = boardnum;
+        document.getElementById('purchaseForm').submit();
+    }
 }
 </script>
 </head>
@@ -48,7 +55,7 @@ function chkreply(){
       <a th:href="|javascript:deleteboard(${board.boardnum})|">삭제</a>
       </div>
       <div th:if="${#authentication.name} != ${board.memberid}">
-      <p>구매하기</p>
+      <a th:href="|javascript:purchaseboard(${board.boardnum})|">구매</a>
       </div>
       <!-- 글삭제 폼 -->
    <form th:action="@{/board/deleteboard}" method ="post" id="deleteForm">
@@ -75,6 +82,14 @@ function chkreply(){
    </th:block>
    </tr>
    </table>
+   
+   <form th:action="@{/board/deleteboard}" id="deleteForm" method="post">
+   <input type="hidden" id="delete" value="num" name="boardnum">
+   </form>
+   
+    <form th:action="@{/board/purchaseBoard}" id="purchaseForm" method="post">
+    <input type="hidden" id="purchase" value="num" name="boardnum">
+   </form>
    
    
    

@@ -63,5 +63,20 @@ public class BoardSeviceImpl implements BoardService {
 	   public int insertReply(Reply reply) {
 	      return dao.insertReply(reply);
 	   }
+	//상품 구매
+	@Override
+	public boolean purchaseBoard(Board b) {
+		int n = dao.purchaseBoard(b);
+		if(n==0) {
+			return false;
+		}else
+			return true;
+	}
+	//검색
+	@Override
+	public ArrayList<Board> search(String category, String searchText) {
+		ArrayList<Board> search = dao.search(category, searchText);
+		return search;
+	}
 	   
 }

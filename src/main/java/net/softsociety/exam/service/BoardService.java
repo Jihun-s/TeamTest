@@ -27,5 +27,11 @@ public interface BoardService {
 	   ArrayList<Reply> replyList();
 	   //리플 저장
 	   int insertReply(Reply reply);
+	//게시글 구매
+	boolean purchaseBoard(Board b);
+	//판매글 검색
+	ArrayList<Board> search(String category, String searchText);
+
+	
 
 }

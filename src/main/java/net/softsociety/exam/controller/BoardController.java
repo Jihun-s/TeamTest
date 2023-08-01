@@ -28,7 +28,7 @@ public class BoardController {
 	
 	@Autowired
 	BoardService service;
-	
+	 
 	/** 
 	 * 판매 정보 게시판
 	 * */
@@ -110,5 +110,46 @@ public class BoardController {
 	      }
 	      return "redirect:/board/read?boardnum="+reply.getBoardnum();
 	   }
-}
+	   
+	    //구매하기
+	    @PostMapping("purchaseBoard")
+	    public String purchaseBoard(@RequestParam("boardnum") int boardnum
+	    		                    ,@AuthenticationPrincipal UserDetails userDetails) {
+	    	Board b = new Board();
+	    String buyerId = userDetails.getUsername();
+	    b.setBuyerid(buyerId);
+	    b.setBoardnum(boardnum);
+	    
+	    boolean purchaseSuccess = service.purchaseBoard(b);
 
+	    // 구매 처리가 성공적이면 리스트로 리다이렉트, 실패하면 해당 게시글로
+	    if (purchaseSuccess) {
+	        return "redirect:/board/list";
+	    } else {
+	        return "redirect:/board/read?boardnum="+boardnum;
+	    }
+	    
+	    }   
+	    //판매글검색 페이지 이동
+	    @GetMapping("search")
+	    public String search(Model model) {
+	    	ArrayList<Board> boardList = service.selectAllBoard();
+			
+			for(Board b : boardList) {
+				log.debug("게시글:{}", b);
+			}
+			
+			model.addAttribute("boardList", boardList);
+			
+	    	return "boardView/search";
+	    }
+	    //판매글 검색
+	    @GetMapping("search")
+	    @ResponseBody
+	    public String search () {
+	    		
+	         return "boardView/search";
+	    }
+	  
+	   
+}	   

@@ -7,7 +7,7 @@
 <!-- 게시판 전체 조회 -->
 <select id="selectAllBoard" resultType="Board">
 	select 
-		boardnum, memberid, title 
+		boardnum, memberid, title, contents, to_char(inputdate, 'YYYY-MM-DD HH24:MI:SS') inputdate, category, soldout, buyerid
 	from market_board
 	where soldout = 'N'
 	order by 
@@ -46,4 +46,21 @@
    insert into market_reply(replynum, boardnum, memberid, replytext)
    values (market_reply_seq.nextval, #{boardnum}, #{memberid}, #{replytext})
 </insert>
+<!-- 구매 -->
+<update id="purchaseBoard" parameterType="Board">
+update market_board set soldout = 'Y', buyerid = #{buyerid} where boardnum=#{boardnum}
+</update>
+<!-- 검색 -->
+<select id="search" resultType="Board">
+	select 
+		boardnum, memberid, title 
+	from 
+		market_board
+	where if
+		soldout = 'N'
+		,category = #{category}
+		,searchText = #{category}
+	order by 
+		boardnum desc
+</select>
 </mapper>
