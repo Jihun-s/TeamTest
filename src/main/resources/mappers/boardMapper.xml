@@ -49,4 +49,12 @@
 <update id="modifyInfo" parameterType="Board">
 	update market_board set soldout = 'Y', buyerid = #{memberid} where boardnum = #{boardnum}
 </update>
+<!-- 리플 삭제 -->
+<delete id="deleteReply" parameterType="int">
+	delete from market_reply where replynum = #{replynum}
+</delete>
+<!-- 리플 수정 -->
+<update id="modifyReply" parameterType="Reply">
+	update market_reply set replytext = #{replytext} where replynum = #{replynum}
+</update>
 </mapper>

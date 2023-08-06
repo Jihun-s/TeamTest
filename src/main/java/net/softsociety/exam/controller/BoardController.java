@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -128,5 +129,20 @@ public class BoardController {
     @GetMapping("search")
     public String search(){
         return "boardView/search";
+    }
+
+    //댓글 수정
+    @ResponseBody
+    @PostMapping("modifyReply")
+    public void modifyReply(Reply reply){
+        log.debug("리플라이 제대로 왔는지: {}", reply.getReplytext());
+        dao.modifyReply(reply);
+    }
+
+    //댓글 삭제
+    @ResponseBody
+    @PostMapping("deleteReply")
+    public void deleteReply(int replynum){
+        dao.deleteReply(replynum);
     }
 }

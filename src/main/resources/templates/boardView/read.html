@@ -5,6 +5,71 @@
         <title>Board_Read</title>
         <script th:src="@{/js/jquery-3.6.0.js}"></script>
         <script>
+            $(document).ready(function() {
+                // 댓글 삭제 버튼 클릭 이벤트 처리
+                $('.deleteReply').click(function() {
+                let replynum = $(this).data('replynum');
+                let replyRow = $(this).closest('tr'); // 클릭된 삭제 버튼이 있는 테이블 행을 찾습니다.
+                            
+                $.ajax({
+                    url: 'deleteReply',
+                    type: 'POST',
+                    data: { replynum: replynum },
+                    success: function(response) {
+                        // 성공 시 해당 댓글 행을 삭제합니다.
+                        replyRow.remove();
+                        // 필요에 따라 알림 메시지를 표시할 수도 있습니다.
+                        alert('댓글이 성공적으로 삭제되었습니다.');
+                    },
+                    error: function(error) {
+                        console.error('댓글 삭제 실패:', error);
+                        alert('댓글 삭제에 실패했습니다. 다시 시도해주세요.');
+                    }
+                });
+            });
+                // 수정 버튼 클릭 이벤트 (Event Delegation 적용)
+                $('table').on('click', '.modifyReply', function() {
+                    let tdElement = $(this).parent().prev().prev(); // "수정" 버튼의 부모 요소의 이전 형제 요소 선택
+                    let originalReplyText = tdElement.find('.replyText').text(); // 기존 댓글 텍스트 가져오기
+                
+                    // 기존 댓글 내용을 입력 창의 value로 설정.
+                    tdElement.find('.editReplyText').val(originalReplyText).show();
+                
+                    // 댓글 내용의 span과 수정 입력 창의 input 요소를 표시/숨김.
+                    tdElement.find('.replyText').hide();
+                
+                    // 수정 버튼을 비활성화하고 수정완료 버튼을 활성화.
+                    $(this).hide();
+                    $(this).siblings('.submitReplyEdit').show();
+                });
+            
+                // 수정완료 버튼 클릭 이벤트 (Event Delegation 적용)
+                $('table').on('click', '.submitReplyEdit', function() {
+                    let replynum = $(this).data('replynum');
+                    let tdElement = $(this).parent().prev().prev();
+                
+                    // 입력된 새 댓글 텍스트 가져오기
+                    let newReplyText = tdElement.find('.editReplyText').val();
+                
+                    $.ajax({
+                        url: 'modifyReply',
+                        type: 'post',
+                        data: { replynum: replynum, replytext: newReplyText },
+                        success: function(r) {
+                            // 수정 완료 후 작업을 수행. 예: 댓글 목록 다시 불러오기
+                            console.log('댓글 수정 성공');
+                            // 서버로부터 응답이 성공적으로 오면 아래의 코드를 추가하여 수정된 내용을 갱신.
+                            tdElement.find('.replyText').text(newReplyText).show();
+                            tdElement.find('.editReplyText').hide();
+                            tdElement.find('.modifyReply').show();
+                            $(this).hide();
+                        },
+                        error: function(error) {
+                            console.error('댓글 수정 실패:', error);
+                        }
+                    });
+                });
+            });
             function deleteboard(boardnum) {
                 let a = confirm('삭제하시겠습니까?');
                 if (a) {
@@ -78,8 +143,18 @@
             <tr th:each="reply:${replyList}">
                 <th:block th:if="${reply.boardnum == board.boardnum}">
                     <td th:text="${reply.memberid}"></td>
-                    <td th:text="${reply.replytext}"></td>
+                    <td>
+                        <span class="replyText" th:text="${reply.replytext}" style="display: inline-block;"></span>
+                        <input class="editReplyText" type="text" style="display: none;">
+                    </td>
                     <td th:text="${reply.inputdate}"></td>
+                    <td>
+                        <input th:if="${#authentication.name} == ${reply.memberid}" type="button" value="수정" class="modifyReply">
+                        <input style="display: none;" class="submitReplyEdit" type="button" value="수정완료" th:data-replynum="${reply.replynum}">
+                    </td>
+                    <td>
+                        <input th:if="${#authentication.name} == ${reply.memberid}" type="button" value="삭제" class="deleteReply" th:data-replynum="${reply.replynum}">
+                    </td>
                 </th:block>
             </tr>
         </table>

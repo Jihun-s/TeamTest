@@ -28,4 +28,8 @@ public interface BoardDAO {
     int delete(int boardnum);
     //구매하기
     int modifyInfo(Board b);
+    //댓글 수정
+    void modifyReply(Reply reply);
+    //댓글 삭제
+    void deleteReply(int replynum);
 }
