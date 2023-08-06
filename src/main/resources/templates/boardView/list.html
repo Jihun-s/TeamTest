@@ -1,32 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-<meta charset="UTF-8">
-<script th:src="@{/js/jquery-3.6.0.js}"></script>
-<title>판매정보 게시판</title>
-</head>
-<body>
-<h1>[ 판매 정보 게시판 ]</h1>
+<html xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8" />
+        <script th:src="@{/js/jquery-3.6.0.js}"></script>
+        <title>판매정보 게시판</title>
+        <script th:src="@{/js/jquery-3.6.0.js}"></script>
+        <script>
+            $(document).ready(function () {
+                getList();
+            });
+            function getList() {
+                $.ajax({
+                    url: 'getList',
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (list) {
+                        let outputHtml = '';
+                        list.forEach((item) => {
+                            outputHtml += `
+                            <tr>
+	        		        <td>${item.boardnum}</td>
+	        		        <td><a href="read?boardnum=${item.boardnum}">${item.title}</a></td>
+	        		        <td>${item.memberid}</td>
+	        		        <td>${item.category}</td>
+                            </tr>
+	        		    `;
+                        });
+                        $('#boardList').html(outputHtml);
+                    },
+                    error: function (e) {
+                        alert(JSON.stringify(e));
+                    },
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <h1>[ 판매 정보 게시판 ]</h1>
+        <p><a th:href="@{/}">홈페이지</a></p>
+        <p><input type="button" id="out" value="서버에서 리스트 받기" /></p>
+        <th:block sec:authorize="isAuthenticated()">
+            <span th:text="${#authentication.name}"></span>님 로그인중
+            <a th:href="@{/board/write}">판매글 등록</a>
+        </th:block>
 
-<th:block sec:authorize="isAuthenticated()">
-	<span th:text="${#authentication.name}"></span>님 로그인중
-	<a th:href="@{/board/write}">판매글 등록</a>
-</th:block>
-
-<table>
-	<tr>
-		<th>번호</th>
-		<th>제목</th>
-		<th>작성자</th>
-	</tr>
-	<tr th:each="board : ${boardList}">
-		<td th:text="${board.boardnum}">000</td>
-		<td>
-			<a th:href="@{/board/read(boardnum=${board.boardnum})}" th:text="${board.title}">제목</a>
-		</td>
-		<td th:text="${board.memberid}">작성자</td>
-	</tr>
-</table>
-</body>
+        <table>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>카테고리</th>
+                </tr>
+            </thead>
+            <tbody id="boardList"></tbody>
+        </table>
+    </body>
 </html>

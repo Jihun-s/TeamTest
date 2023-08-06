@@ -8,24 +8,16 @@ import net.softsociety.exam.domain.Reply;
 
 public interface BoardService {
 
-	/** 
-	 * 게시판 전체 조회
-	 * */
-	ArrayList<Board> selectAllBoard();
+    int insertBoard(Board board);
 
-	/** 
-	 * 판매글 등록
-	 * */
-	int insertBoard(Board board);
+    Board read(int boardnum);
 
-	//게시판 글읽기
-	   Board read(int boardnum);
-	   //게시판 글삭제
-	   int delete(int boardnum);
-	   
-	   //리플목록 출력
-	   ArrayList<Reply> replyList();
-	   //리플 저장
-	   int insertReply(Reply reply);
+    int insertReply(Reply reply);
+
+    ArrayList<Reply> replyList(int boardnum);
+
+    int delete(int boardnum);
+
+    int modifyInfo(Board b);
 
 }

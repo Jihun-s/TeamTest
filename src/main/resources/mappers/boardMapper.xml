@@ -6,27 +6,26 @@
 
 <!-- 게시판 전체 조회 -->
 <select id="selectAllBoard" resultType="Board">
-	select 
-		boardnum, memberid, title 
-	from market_board
-	where soldout = 'N'
+	select
+	    boardnum, memberid, title, category
+	from
+        market_board
+	where
+        soldout = 'N'
 	order by 
 		boardnum desc
 </select>
 
-<!-- 판매글 등록 -->
+<!--판매글 등록 -->
 <insert id="insertBoard" parameterType="Board">
 	insert into
-		market_board
-			(boardnum
-			, memberid
-			, title
-			, contents)
-	values 
-			(market_board_seq.nextval
-			, #{memberid}
-			, #{title}
-			, #{contents})
+		market_board(boardnum, memberid, title, contents, category)
+	values
+		(market_board_seq.nextval
+		, #{memberid}
+		, #{title}
+		, #{contents}
+		, #{category})
 </insert>
 
 <!-- 글 읽기 -->
@@ -35,15 +34,19 @@
 </select>
 <!-- 글 삭제 -->
 <delete id="delete" parameterType="int">
-   delete from market_board where boardnum = #{boardnum}  
+   delete from market_board where boardnum = #{boardnum}
 </delete>
-<!-- 리플목록 저장 -->
+<!-- 리플 목록 가져오기 -->
 <select id="replyList">
-   select * from market_reply order by inputdate
+   	select * from market_reply where boardnum = #{boardnum} order by inputdate
 </select>
 <!-- 리플 저장 -->
 <insert id="insertReply" parameterType="Reply">
    insert into market_reply(replynum, boardnum, memberid, replytext)
    values (market_reply_seq.nextval, #{boardnum}, #{memberid}, #{replytext})
 </insert>
+<!-- 구매하기 -->
+<update id="modifyInfo" parameterType="Board">
+	update market_board set soldout = 'Y', buyerid = #{memberid} where boardnum = #{boardnum}
+</update>
 </mapper>

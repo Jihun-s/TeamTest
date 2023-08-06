@@ -18,50 +18,37 @@ public class BoardSeviceImpl implements BoardService {
 
 	@Autowired
 	BoardDAO dao;
-	
-	/** 
-	 * 게시판 전체 조회
-	 * */
-	@Override
-	public ArrayList<Board> selectAllBoard() {
-		// TODO Auto-generated method stub
-		ArrayList<Board> boardList = dao.selectAllBoard();
-		return boardList;
-	}
 
-	/** 
-	 * 판매글 등록
-	 * */
-	@Override
-	public int insertBoard(Board board) {
-		// TODO Auto-generated method stub
-		int result = dao.insertBoard(board);
-		return result;
-	}
+    //판매글 등록
+    @Override
+    public int insertBoard(Board board) {
+        return dao.insertBoard(board);
+    }
 
-	   //게시판 글읽기
-	   @Override
-	   public Board read(int boardnum) {
-	      return dao.read(boardnum);
-	   }
-	   
-	   //게시판 글삭제
-	   @Override
-	   public int delete(int boardnum) {
-	      return dao.delete(boardnum);
-	   }
+    //글 읽기
+    @Override
+    public Board read(int boardnum) {
+        return dao.read(boardnum);
+    }
 
+    @Override
+    public int insertReply(Reply reply) {
+        return dao.insertReply(reply);
+    }
 
-	   //리플목록 출력
-	   @Override
-	   public ArrayList<Reply> replyList() {
-	      return dao.replyList();
-	   }
-	   //리플저장
+    @Override
+    public ArrayList<Reply> replyList(int boardnum) {
+        return dao.replyList(boardnum);
+    }
 
-	   @Override
-	   public int insertReply(Reply reply) {
-	      return dao.insertReply(reply);
-	   }
+    @Override
+    public int delete(int boardnum) {
+        return dao.delete(boardnum);
+    }
+
+    @Override
+    public int modifyInfo(Board b) {
+        return dao.modifyInfo(b);
+    }
 	   
 }
