@@ -9,16 +9,15 @@
                 // 댓글 삭제 버튼 클릭 이벤트 처리
                 $('.deleteReply').click(function() {
                 let replynum = $(this).data('replynum');
-                let replyRow = $(this).closest('tr'); // 클릭된 삭제 버튼이 있는 테이블 행을 찾습니다.
+                let replyRow = $(this).closest('tr'); // 클릭된 삭제 버튼이 있는 테이블 행 선택.
                             
                 $.ajax({
                     url: 'deleteReply',
                     type: 'POST',
                     data: { replynum: replynum },
                     success: function(response) {
-                        // 성공 시 해당 댓글 행을 삭제합니다.
+                        // 성공 시 해당 댓글 행을 삭제.
                         replyRow.remove();
-                        // 필요에 따라 알림 메시지를 표시할 수도 있습니다.
                         alert('댓글이 성공적으로 삭제되었습니다.');
                     },
                     error: function(error) {
@@ -56,7 +55,6 @@
                         type: 'post',
                         data: { replynum: replynum, replytext: newReplyText },
                         success: function(r) {
-                            // 수정 완료 후 작업을 수행. 예: 댓글 목록 다시 불러오기
                             console.log('댓글 수정 성공');
                             // 서버로부터 응답이 성공적으로 오면 아래의 코드를 추가하여 수정된 내용을 갱신.
                             tdElement.find('.replyText').text(newReplyText).show();
