@@ -26,6 +26,8 @@ public class WebSecurityConfig {
         .authorizeRequests()
         .antMatchers(
         		"/",
+                "/board/search",
+                "/board/getList",
         		"/member/idcheck",
         		"/member/join",
         		"/board/list",
