@@ -33,15 +33,9 @@ public class BoardController {
 	 * 판매 정보 게시판
 	 * */
 	@GetMapping("list")
-	public String list(Model model) {
-		// 게시판 목록 불러오기
-		ArrayList<Board> boardList = service.selectAllBoard();
+	@ResponseBody
+	public String list() {
 		
-		for(Board b : boardList) {
-			log.debug("게시글:{}");
-		}
-		
-		model.addAttribute("boardList", boardList);
 		return "boardView/list";
 	}
 	
@@ -130,26 +124,8 @@ public class BoardController {
 	    }
 	    
 	    }   
-	    //판매글검색 페이지 이동
-	    @GetMapping("search")
-	    public String search(Model model) {
-	    	ArrayList<Board> boardList = service.selectAllBoard();
-			
-			for(Board b : boardList) {
-				log.debug("게시글:{}", b);
-			}
-			
-			model.addAttribute("boardList", boardList);
-			
-	    	return "boardView/search";
-	    }
-	    //판매글 검색
-	    @GetMapping("search")
-	    @ResponseBody
-	    public String search () {
-	    		
-	         return "boardView/search";
-	    }
+	    
+	   
 	  
 	   
 }	   

@@ -50,17 +50,5 @@
 <update id="purchaseBoard" parameterType="Board">
 update market_board set soldout = 'Y', buyerid = #{buyerid} where boardnum=#{boardnum}
 </update>
-<!-- 검색 -->
-<select id="search" resultType="Board">
-	select 
-		boardnum, memberid, title 
-	from 
-		market_board
-	where if
-		soldout = 'N'
-		,category = #{category}
-		,searchText = #{category}
-	order by 
-		boardnum desc
-</select>
+
 </mapper>

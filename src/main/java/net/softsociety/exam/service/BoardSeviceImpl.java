@@ -72,11 +72,6 @@ public class BoardSeviceImpl implements BoardService {
 		}else
 			return true;
 	}
-	//검색
-	@Override
-	public ArrayList<Board> search(String category, String searchText) {
-		ArrayList<Board> search = dao.search(category, searchText);
-		return search;
-	}
+	
 	   
 }

@@ -35,5 +35,5 @@ public interface BoardDAO {
 	   //구매
 	int purchaseBoard(Board b);
 
-	ArrayList<Board> search(String category, String searchText);
+	
 }

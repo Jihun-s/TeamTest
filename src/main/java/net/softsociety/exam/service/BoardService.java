@@ -29,9 +29,7 @@ public interface BoardService {
 	   int insertReply(Reply reply);
 	//게시글 구매
 	boolean purchaseBoard(Board b);
-	//판매글 검색
-	ArrayList<Board> search(String category, String searchText);
-
+	
 	
 
 }
